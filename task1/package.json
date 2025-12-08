@@ -1,0 +1,22 @@
+{
+  "name": "task1",
+  "version": "1.0.0",
+  "main": "part1.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon part1.js",
+    "dev": "nodemon part2.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/surafel-a/GDG-Node-track-Surafel-Aschalew.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/surafel-a/GDG-Node-track-Surafel-Aschalew/issues"
+  },
+  "homepage": "https://github.com/surafel-a/GDG-Node-track-Surafel-Aschalew#readme",
+  "description": ""
+}

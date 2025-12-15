@@ -23,8 +23,7 @@ app.get('/about', (req, res) => {
 app.get('/students/:studentId', (req, res) => {
   res.json({
     studentId: req.params.studentId,
-    name: req.query.name,
-    department: req.query.department
+    ...req.query
   })
 })
 

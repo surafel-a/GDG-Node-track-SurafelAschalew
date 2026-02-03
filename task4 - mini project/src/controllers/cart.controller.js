@@ -6,10 +6,8 @@ export const createCart = async (req, res, next) => {
   try {
     const newCart = await Cart.create({
       userId: req.user.id,
-      products: [
-        { productId: req.body.productId },
-        { quantity: req.body.quantity }
-      ]
+      productId: req.body.productId,
+      productQuantity: req.body.productQuantity
     });
 
     res.status(201).json({
@@ -25,7 +23,7 @@ export const createCart = async (req, res, next) => {
 export const getAllCarts = async (req, res, next) => {
   try {
     const features = new APIFeatures(Cart.find(), req.query).filter().sort().limitFields().paginate();
-    const carts = await features.query;
+    const carts = await features.query.populate('userId', 'name address -_id').populate('productId', 'name price');
 
     res.status(200).json({
       status: 'success',
@@ -40,7 +38,7 @@ export const getAllCarts = async (req, res, next) => {
 
 export const getCartById = async (req, res, next) => {
   try {
-    const cart = await Cart.findById(req.params.id);
+    const cart = await Cart.findById(req.params.id).populate('userId', 'name address -_id').populate('productId', 'name price');
 
     if(!cart){
       return next(new AppError('No cart found with that ID', 404));

@@ -1,17 +1,24 @@
 import Order from '../models/order.model.js';
+import Cart from '../models/cart.model.js';
 import APIFeatures from '../utils/apiFeatures.js';
 import AppError from '../utils/appError.js';
 
 export const createOrder = async (req, res, next) => {
   try {
+    const cart = await Cart.findById(req.body.cartId).populate('productId', 'name price').populate('userId', 'name address');
+
+    if(!cart){
+      return next(new AppError('No cart found with that ID', 404));
+    }
+
     const newOrder = await Order.create({
       userId: req.user.id,
-      productId: req.body.productId,
-      productQuantity: req.body.productQuantity,
-      total: req.body.total,
-      customerName: req.user.customerName,
-      customerEmail: req.user.customerEmail,
-      customerAddress: req.user.customerAddress
+      customerName: cart.userId.name,
+      customerAddress: cart.userId.address,
+      cartId: cart._id,
+      productId: cart.productId._id,
+      productQuantity: cart.productQuantity,
+      total: cart.productId.price * cart.productQuantity,
     });
 
     res.status(201).json({
